@@ -8,11 +8,16 @@ namespace SindicatoWeb.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required, MinLength(5), MaxLength(50)]
         public string? CorreoElectronico { get; set; }
-        [Required]
+        [Required, MinLength(5), MaxLength(50)]
         public string? Password { get; set; }
+        [Required, MinLength(3), MaxLength(30)]
         public string? NombreCompleto { get; set; }
+        [Required]
         public RolEnum Rol { get; set; }
+
+        //Relaciones
+        public virtual List<Pago>? Pagos { get; set; }
     }
 }

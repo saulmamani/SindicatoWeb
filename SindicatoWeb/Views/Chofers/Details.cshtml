@@ -42,6 +42,23 @@
     </div>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Volver</a>
 </div>
+
+<h3>Pago de Mesualidades</h3>
+<hr/>
+@{
+    ViewData["ChoferId"] = Model.Id;
+}
+
+<div class="row">
+    <div class="col-sm-4">
+        <partial name="~/Views/Pagoes/Create.cshtml" model="new Pago()" view-data="ViewData"></partial>
+    </div>
+    <div class="col-sm-8">
+        <partial name="~/Views/Pagoes/Index.cshtml" model="Model.Pagos"></partial>
+    </div>
+</div>
+
+
+

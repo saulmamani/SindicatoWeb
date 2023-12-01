@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SindicatoWeb.Dtos;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SindicatoWeb.Models
@@ -12,7 +13,7 @@ namespace SindicatoWeb.Models
         public DateTime Fecha { get; set; }
         public int Numero { get; set; }
         [Required]
-        public int Mes { get; set; }
+        public MesEnum Mes { get; set; }
         [Required]
         public int Anio { get; set; }
         [Required]

@@ -31,6 +31,10 @@
 
                     <button class="w-100 btn btn-lg btn-primary" type="submit">Ingresar al Sistema</button>
                 </form>
+                @if (TempData["LoginError"] != null)
+                {
+                    <div class="alert alert-danger">@TempData["LoginError"]</div>
+                }
 
                 <p class="mt-5 mb-3 text-muted">&copy; 2023</p>
             </div>

@@ -1,0 +1,42 @@
+﻿@model SindicatoWeb.Models.Pago
+@using SindicatoWeb.Dtos
+
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create" asp-controller="Pagoes">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Mes" class="control-label"></label>
+                <select asp-for="Mes" class="form-control" asp-items="Html.GetEnumSelectList<MesEnum>()"  required>
+                    <option value="">Seleccione...</option>
+                </select>
+                <span asp-validation-for="Mes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Anio" class="control-label"></label>
+                <input asp-for="Anio" class="form-control" value="@DateTime.Now.Year" />
+                <span asp-validation-for="Anio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Monto" class="control-label"></label>
+                <input asp-for="Monto" class="form-control" value="100"/>
+                <span asp-validation-for="Monto" class="text-danger"></span>
+            </div>
+
+            <input type="hidden" asp-for="ChoferId" class="form-control" value="@ViewData["ChoferId"]"/>
+            
+            <div class="form-group mt-5">
+                <input type="submit" value="Registrar pago" class="btn btn-primary" />
+            </div>
+        </form>
+
+        @if (TempData["PagoRegistrado"] != null)
+        {
+            <div class="alert alert-success">@TempData["PagoRegistrado"]</div>
+        }
+    </div>
+</div>
+

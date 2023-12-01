@@ -38,7 +38,9 @@ namespace SindicatoWeb.Controllers
             }
 
             var chofer = await _context.Chofer
+                .Include(x => x.Pagos!.OrderByDescending(x => x.Id))
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (chofer == null)
             {
                 return NotFound();

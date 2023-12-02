@@ -1,0 +1,50 @@
+﻿@model SindicatoWeb.Models.Usuario
+
+@{
+    ViewData["Title"] = "Reporte";
+}
+
+<h1>Reporte de Cierre de Caja</h1>
+
+<p>Usuario: @Html.DisplayFor(model => model.CorreoElectronico)</p>
+<p>Nombre: @Html.DisplayFor(model => model.NombreCompleto)</p>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Numero</th>
+        <th>Mes</th>
+        <th>Monto</th>
+        <th>Total</th>
+    </tr>
+    </thead>
+    <tbody>
+        @{
+            int nro = 1;
+        }
+        @foreach(var item in Model.Pagos!)
+        {
+            <tr>
+                <td>
+                    @nro
+                </td>
+                <td>
+                   @Html.DisplayFor(modelItem => item.Numero)
+                </td>
+                <td>
+                   @Html.DisplayFor(modelItem => item.Mes)
+                </td>
+                <td>
+                   @Html.DisplayFor(modelItem => item.Anio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Monto)
+                </td>
+            </tr>
+
+            nro++;
+        }
+    </tbody>
+</table>
+

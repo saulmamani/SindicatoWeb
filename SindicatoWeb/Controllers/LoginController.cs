@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SindicatoWeb.Contexto;
+using SindicatoWeb.Models;
+using System.Security.Claims;
+using System.Security.Policy;
 
 namespace SindicatoWeb.Controllers
 {
@@ -26,6 +31,8 @@ namespace SindicatoWeb.Controllers
 
             if (usuario != null)
             {
+                await SetUserCookie(usuario);
+
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -35,8 +42,23 @@ namespace SindicatoWeb.Controllers
             }
         }
 
+        private async Task SetUserCookie(Usuario usuario)
+        {
+            var claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.Name, usuario!.NombreCompleto!),
+                new Claim(ClaimTypes.Email, usuario!.CorreoElectronico!),
+                new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
+                new Claim(ClaimTypes.Role, usuario.Rol!.ToString()),
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+        }
+
         public async Task<IActionResult> Logout()
         {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return RedirectToAction("Index", "Login");
         }

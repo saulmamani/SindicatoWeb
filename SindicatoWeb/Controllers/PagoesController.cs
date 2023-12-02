@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +12,7 @@ using SindicatoWeb.Models;
 
 namespace SindicatoWeb.Controllers
 {
+    [Authorize]
     public class PagoesController : Controller
     {
         private readonly MiContext _context;
@@ -57,7 +60,7 @@ namespace SindicatoWeb.Controllers
             {
                 pago.Numero = getNumero(); //crear metodo
                 pago.Fecha = DateTime.Now;
-                pago.UsuarioId = 1;//recuperar el usuario autenticado
+                pago.UsuarioId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 
                 _context.Add(pago);
                 await _context.SaveChangesAsync();

@@ -1,60 +1,75 @@
 ﻿@model SindicatoWeb.Models.Pago
 
 @{
-    ViewData["Title"] = "Details";
+    Layout = null;
 }
 
-<h1>Details</h1>
+<!DOCTYPE html>
 
-<div>
-    <h4>Pago</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Fecha)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Fecha)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Numero)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Numero)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Mes)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Mes)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Anio)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Anio)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Monto)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Monto)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Chofer)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Chofer.Ci)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Usuario)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Usuario.CorreoElectronico)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<html>
+<head>
+    <title>Recibo</title>
+    <link href="~/css/printer.css" rel="stylesheet" />
+    <script src="~/js/qrcode.min.js"></script>
+</head>
+<body onload="window.print()" onafterprint="history.back()">
+    <div class="contenedor onlyPrint">
+        <div style="text-align: center">
+            <br />
+            <h3>Sindicato de Transportes</h3>
+            <br />
+            <h3>Transportes Oruro</h3>
+
+            <h1>RECIBO # @Html.DisplayFor(model => model.Numero)</h1>
+        </div>
+
+        <hr />
+
+        <dl class="row">
+            <dd class="col-sm-12">
+                Fecha: @Html.DisplayFor(model => model.Fecha)
+            </dd>
+
+            <dd class="col-sm-10">
+                Ci: @Html.DisplayFor(model => model.Chofer.Ci)
+            </dd>
+            <dd class="col-sm-10">
+                Nombre: @Html.DisplayFor(model => model.Chofer.NombreCompleto)
+            </dd>
+
+            <br/>
+            <dd class="col-sm-10">
+                Mes: @Html.DisplayFor(model => model.Mes)
+            </dd>
+            <dd class="col-sm-10">
+                Gestion: @Html.DisplayFor(model => model.Anio)
+            </dd>
+            <dd class="col-sm-10">
+                Total: @Html.DisplayFor(model => model.Monto)
+            </dd>
+        </dl>
+
+        <p>
+            <small>@Html.DisplayFor(model => model.Usuario.CorreoElectronico) </small>
+        </p>
+
+        @{
+            string qr = String.Format("{0}|{1}|{2}|{3}|{4}",
+                Model.Numero,
+                Model.Chofer!.Ci,
+                Model.Mes,
+                Model.Anio,
+                Model.Monto
+              );
+        }
+    </div>
+
+@*     <script>
+        var qrcode = new QRCode("qrcode", {
+            text: "@qr",
+            width: 100,
+            height: 100
+        });
+    </script> *@
+</body>
+</html>
